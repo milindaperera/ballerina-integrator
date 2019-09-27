@@ -18,11 +18,11 @@
 
 package org.wso2.ei.tools.mule2ballerina;
 
-import org.ballerinalang.model.BallerinaFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.wso2.ballerinalang.compiler.tree.BLangCompilationUnit;
 import org.wso2.ei.tools.converter.common.Utils;
-import org.wso2.ei.tools.converter.common.generator.BallerinaSourceGenerator;
+import org.wso2.ei.tools.converter.common.generator.BLangCodeGenVisitor;
 import org.wso2.ei.tools.mule2ballerina.configreader.ConfigReader;
 import org.wso2.ei.tools.mule2ballerina.model.Root;
 import org.wso2.ei.tools.mule2ballerina.visitor.TreeVisitor;
@@ -66,7 +66,7 @@ public class MuleToBalConvertExecutor {
                 List<File> filesInFolder = Files.walk(Paths.get(args[0])).filter(Files::isRegularFile).
                         map(Path::toFile).collect(Collectors.toList());
                 for (File file : filesInFolder) {
-                    ConfigReader xmlParser = new ConfigReader();
+                    ConfigReader xmlParser = new ConfigReader(file.getName().substring(0, source.getName().indexOf('.')));
                     try (InputStream inputStream = xmlParser.getInputStream(file)) {
                         String fileName = file.getName().substring(0, file.getName().indexOf('.')) + ".bal";
                         createBalFile(xmlParser, inputStream, destination + File.separator + fileName);
@@ -79,7 +79,7 @@ public class MuleToBalConvertExecutor {
                     destination = fileName.substring(0, fileName.indexOf('.')) + ".bal";
                 }
                 logger.info("Generated ballerina file saved as " + destination);
-                ConfigReader xmlParser = new ConfigReader();
+                ConfigReader xmlParser = new ConfigReader(source.getName().substring(0, source.getName().indexOf('.')));
                 try (InputStream inputStream = xmlParser.getInputStream(source)) {
                     createBalFile(xmlParser, inputStream, destination);
                 }
@@ -93,18 +93,26 @@ public class MuleToBalConvertExecutor {
             throws IOException {
         xmlParser.readXML(inputStream);
         Root muleRootObj = xmlParser.getRootObj();
-        if (xmlParser.getUnIdentifiedElements() != null && !xmlParser.getUnIdentifiedElements().isEmpty()) {
+        if (!xmlParser.getUnIdentifiedElements().isEmpty()) {
             logger.warn("Following Elements are not supported by the converter yet!");
             logger.warn("-----------------------------------------------------------");
             xmlParser.getUnIdentifiedElements().forEach(element -> logger.warn(element));
             logger.warn("-----------------------------------------------------------");
         }
         TreeVisitor treeVisitor = new TreeVisitor(muleRootObj);
-        treeVisitor.visit(muleRootObj);
-        BallerinaFile ballerinaFile = treeVisitor.getBallerinaFile();
+        BLangCompilationUnit compilationUnit = treeVisitor.visit();
+        logger.info("Completed");
 
-        BallerinaSourceGenerator sourceGenerator = new BallerinaSourceGenerator();
-        sourceGenerator.generate(ballerinaFile, destination);
+        BLangCodeGenVisitor codeGenVisitor = new BLangCodeGenVisitor();
+        codeGenVisitor.visit(compilationUnit);
+
+        String srcCode = codeGenVisitor.getSource();
+        logger.info(srcCode);
+
+        //BallerinaFile ballerinaFile = treeVisitor.getBallerinaFile();
+
+        //BallerinaSourceGenerator sourceGenerator = new BallerinaSourceGenerator();
+        //sourceGenerator.generate(ballerinaFile, destination);
 
     }
 }

@@ -2,12 +2,18 @@
 
 <mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
       xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
-    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" basePath="/hello" doc:name="HTTP Listener Configuration"/>
-    <flow name="helloworldserviceFlow">
-        <http:listener config-ref="HTTP_Listener_Configuration" path="/" doc:name="HTTP"/>
-        <set-payload value="Hello, World!" doc:name="Set Payload"/>
+    <http:listener-config name="helloWorldListenerConfig" doc:name="HTTP Listener config" doc:id="1a5639e1-67a8-4e55-8a53-5e12f30e93ce" basePath="/helloworld">
+        <http:listener-connection host="0.0.0.0" port="9091" connectionIdleTimeout="60001"/>
+    </http:listener-config>
+    <flow name="01_helloworldFlow" doc:id="4978e13e-9c68-41bf-9dd2-0deedcf9f1a2" >
+        <http:listener doc:name="Listener" doc:id="077ac461-f3cb-43b8-8f8c-2ab505a9beab" config-ref="helloWorldListenerConfig" path="/sayhello"/>
+        <logger level="INFO" doc:name="Logger" doc:id="97660c06-95de-4f0e-9dff-5c3cab7927b8" message="hello message"/>
+        <set-payload value="Hello World !!" doc:name="Set Payload" doc:id="ada9e6c3-a67b-4044-b859-65d8e29e9d55" mimeType="text/plain"/>
+    </flow>
+    <flow name="01_helloworldFlow1" doc:id="45100c83-69c1-4f19-918a-009a6f4bfe90" >
+        <http:listener doc:name="Listener" doc:id="433e7f20-2416-4552-a18a-4dcb2e45f9a8" config-ref="helloWorldListenerConfig" path="/sayhello2"/>
+        <set-payload value="Helloworld 2 !!!!" doc:name="Set Payload" doc:id="26630131-7d3b-4c79-9731-80e320c4f02d" />
     </flow>
 </mule>

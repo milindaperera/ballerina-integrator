@@ -67,7 +67,7 @@ public class AsynchronousTask extends BaseObject implements Visitable, Processor
         BaseObject baseObj = dataCarrierDTO.getBaseObject();
         Root rootObj = dataCarrierDTO.getRootObject();
 
-        Flow lastAddedFlow = rootObj.getFlowList().peek(); //Get the last added flow from flow stack
+        Flow lastAddedFlow = rootObj.getFlowStack().peek(); //Get the last added flow from flow stack
         //Add processor to processor queue
         if (dataCarrierDTO.isAsyncFlowStarted()) { //If the async flow has just started
             lastAddedFlow.addProcessor((Processor) baseObj); //Add it as a processor

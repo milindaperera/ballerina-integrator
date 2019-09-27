@@ -30,6 +30,7 @@ import java.util.LinkedList;
 public class Flow extends BaseObject implements Visitable {
 
     protected String name;
+    protected Listener listener;// If listener available, this flow is a direct service resource flow
     protected LinkedList<Processor> flowProcessors; /*All the processors inside a flow needs to be in FIFO order to
     generate Ballerina code in its proper order*/
 
@@ -47,6 +48,14 @@ public class Flow extends BaseObject implements Visitable {
 
     public LinkedList<Processor> getFlowProcessors() {
         return flowProcessors;
+    }
+
+    public Listener getListener() {
+        return listener;
+    }
+
+    public void setListener(Listener listener) {
+        this.listener = listener;
     }
 
     public void addProcessor(Processor processor) {

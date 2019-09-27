@@ -23,20 +23,43 @@ import org.wso2.ei.tools.mule2ballerina.visitor.Visitor;
 /**
  * {@code HttpListener} represents mule http:listener element
  */
-public class HttpListener extends BaseObject implements Inbound, Processor {
+public class HttpListener extends Listener {
 
-    private String configRef;
     private String path;
     private String allowedMethods;
+    private String configRef;
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 
+    /**
+     * Get Inbound name
+     *
+     * @return
+     */
+    @Override
+    public String getName() {
+        return configRef;
+    }
+
+    /**
+     * Get this element's global configuration name
+     *
+     * @return
+     */
     @Override
     public String getConfigName() {
         return configRef;
+    }
+
+    public String getConfigRef() {
+        return configRef;
+    }
+
+    public void setConfigRef(String configRef) {
+        this.configRef = configRef;
     }
 
     public String getPath() {
@@ -53,19 +76,5 @@ public class HttpListener extends BaseObject implements Inbound, Processor {
 
     public void setAllowedMethods(String allowedMethods) {
         this.allowedMethods = allowedMethods;
-    }
-
-    public void setConfigRef(String configRef) {
-        this.configRef = configRef;
-    }
-
-    /**
-     * Get this element's global configuration name
-     *
-     * @return
-     */
-    @Override
-    public String getName() {
-        return configRef;
     }
 }

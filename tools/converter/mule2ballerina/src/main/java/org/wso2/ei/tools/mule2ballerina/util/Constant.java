@@ -83,4 +83,7 @@ public class Constant {
     public static final String DEFAULT_PORT = "80";
     public static final String DIVIDER = "/";
     public static final String BACKTICK = "`";
+
+
+    public static final String BLANG_KEYWORD_UNTAINED = "untained";
 }

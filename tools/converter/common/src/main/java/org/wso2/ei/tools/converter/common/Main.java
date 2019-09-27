@@ -18,10 +18,10 @@
 
 package org.wso2.ei.tools.converter.common;
 
-import org.ballerinalang.BLangProgramLoader;
+/*import org.ballerinalang.BLangProgramLoader;
 import org.ballerinalang.model.BLangProgram;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory;*/
 import org.wso2.ei.tools.converter.common.generator.CodeGenVisitor;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ import java.nio.file.Paths;
  */
 public class Main {
 
-    private static Logger logger = LoggerFactory.getLogger(Main.class);
+    //private static Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) throws IOException {
         /*logger.info("hello");*/
 
@@ -44,11 +44,11 @@ public class Main {
         Path balHome = Paths.get(args[0]);
         Path balFile = Paths.get(args[1]);
 
-        BLangProgram bLangProgram = new BLangProgramLoader().loadService(balHome, balFile);
+        //BLangProgram bLangProgram = new BLangProgramLoader().loadService(balHome, balFile);
 
         CodeGenVisitor codeGenVisitor = new CodeGenVisitor();
-        bLangProgram.accept(codeGenVisitor);
-        logger.info(codeGenVisitor.getBallerinaSourceStr());
+        //bLangProgram.accept(codeGenVisitor);
+        //logger.info(codeGenVisitor.getBallerinaSourceStr());
         /*BallerinaFile ballerinaFile = TestBallerinaASTBuilder.buildBallerinaAST();
 
         Service targetService = null;

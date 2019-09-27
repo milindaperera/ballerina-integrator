@@ -26,6 +26,7 @@ public enum Attribute {
     NAME("name", "name"),
     HOST("host", "host"),
     PORT("port", "port"),
+    CONNECTION_IDLE_TO("connectionIdleTimeout", "connectionIdleTimeout"),
     BASE_PATH("basePath", "basePath"),
     CONFIG_REF("config-ref", "configRef"),
     PATH("path", "path"),

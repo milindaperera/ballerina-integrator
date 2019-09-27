@@ -23,7 +23,8 @@ package org.wso2.ei.tools.mule2ballerina.elementmapper;
  */
 public enum Element {
 
-    HTTP_LISTENER_CONFIG("http:listener-config", "org.wso2.ei.tools.mule2ballerina.model" + ".HttpListenerConfig"),
+    HTTP_LISTENER_CONFIG("http:listener-config", "org.wso2.ei.tools.mule2ballerina.model.HttpListenerConfig"),
+    HTTP_LISTENER_CONNECTION("http:listener-connection", "org.wso2.ei.tools.mule2ballerina.model.HttpListenerConnection"),
     HTTP_LISTENER("http:listener", "org.wso2.ei.tools.mule2ballerina.model.HttpListener"),
     FLOW("flow", "org.wso2.ei.tools.mule2ballerina.model.Flow"),
     SET_PAYLOAD("set-payload", "org.wso2.ei.tools.mule2ballerina.model.Payload"),

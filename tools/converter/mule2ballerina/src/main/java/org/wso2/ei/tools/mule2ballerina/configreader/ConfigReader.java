@@ -61,10 +61,10 @@ public class ConfigReader {
     private boolean asyncFlowStarted = false;
     private List<String> unIdentifiedElements;
 
-    public ConfigReader() {
+    public ConfigReader(String name) {
         mapperObject = new ElementMapper();
         attributeMapper = new AttributeMapper();
-        rootObj = new Root();
+        rootObj = new Root(name);
         unIdentifiedElements = new ArrayList<String>();
     }
 
@@ -204,7 +204,11 @@ public class ConfigReader {
                     if (property != null) {
                         Field field = mClass.getDeclaredField(property);
                         field.setAccessible(true);
-                        field.set(object, attribute.getValue());
+                        if (field.getGenericType().getTypeName().equals("long")) {
+                            field.set(object, Long.valueOf(attribute.getValue()));
+                        } else {
+                            field.set(object, attribute.getValue());
+                        }
                     }
                 } catch (NoSuchFieldException e) {
                     logger.warn(

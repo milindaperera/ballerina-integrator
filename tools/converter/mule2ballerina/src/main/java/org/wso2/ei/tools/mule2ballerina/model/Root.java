@@ -21,7 +21,6 @@ package org.wso2.ei.tools.mule2ballerina.model;
 import org.wso2.ei.tools.mule2ballerina.visitor.Visitable;
 import org.wso2.ei.tools.mule2ballerina.visitor.Visitor;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,51 +33,56 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class Root extends BaseObject implements Visitable {
 
-    private List<GlobalConfiguration> globalConfigurations;
-    private Stack<Flow> flowList; //Flows in LIFO order
-    private Map<String, GlobalConfiguration> configMap; //All global configurations against it's name
+    private String name;
+
+    private Map<String, GlobalConfiguration> globalConfigurations; //All global configurations against it's name
     private Map<String, Queue<Flow>> serviceMap; //Map of services and it's resources maintained as a queue
     private Map<String, SubFlow> subFlowMap; //All subflows against their names
-    private Stack<SubFlow> subFlowStack; //Subflows maintained in FILO order
     private Map<String, Flow> privateFlowMap; //Map of private flows against their names
-    private Stack<Flow> privateFlowList; //Private flow list in FILO order
     private List<AsynchronousTask> asyncTaskList;
 
-    public Root() {
-        flowList = new Stack<Flow>();
-        globalConfigurations = new ArrayList<GlobalConfiguration>();
-        configMap = new HashMap<String, GlobalConfiguration>();
-        serviceMap = new HashMap<String, Queue<Flow>>();
-        subFlowMap = new HashMap<String, SubFlow>();
-        subFlowStack = new Stack<SubFlow>();
-        privateFlowMap = new HashMap<String, Flow>();
-        privateFlowList = new Stack<Flow>();
+    private Stack<Flow> flowStack; //Flows in LIFO order
+    private Stack<SubFlow> subFlowStack; //Subflows maintained in FILO order
+    private Stack<Flow> privateFlowStack; //Private flow list in FILO order
+    private Stack<GlobalConfiguration> globalConfigStack;
+
+    public Root(String name) {
+        this.name = name;
+        flowStack = new Stack<Flow>();
+        globalConfigurations = new HashMap<>();
+        serviceMap = new HashMap<>();
+        subFlowMap = new HashMap<>();
+        subFlowStack = new Stack<>();
+        privateFlowMap = new HashMap<>();
+        privateFlowStack = new Stack<>();
+        globalConfigStack = new Stack<>();
         asyncTaskList = new CopyOnWriteArrayList<AsynchronousTask>();
     }
 
-    public List<GlobalConfiguration> getGlobalConfigurations() {
-        return globalConfigurations;
-    }
-
-    public Stack<Flow> getFlowList() {
-        return flowList;
+    public Stack<Flow> getFlowStack() {
+        return flowStack;
     }
 
     public void addGlobalConfiguration(GlobalConfiguration globalConfiguration) {
-        this.globalConfigurations.add(globalConfiguration);
+        this.globalConfigurations.put(globalConfiguration.getName(), globalConfiguration);
+        this.globalConfigStack.push(globalConfiguration);
+    }
+
+    public Map<String, GlobalConfiguration> getGlobalConfigurations() {
+        return globalConfigurations;
+    }
+
+    public GlobalConfiguration getGlobalConfiguration(String name) {
+        return globalConfigurations.get(name);
     }
 
     /* Maintain main flows in LIFO order */
     public void addMFlow(Flow flow) {
-        this.flowList.add(flow);
+        this.flowStack.add(flow);
     }
 
     public void addToPrivateFlowStack(Flow privateFlow) {
-        this.privateFlowList.add(privateFlow);
-    }
-
-    public void addGlobalConfigurationMap(String name, GlobalConfiguration configuration) {
-        configMap.put(name, configuration);
+        this.privateFlowStack.add(privateFlow);
     }
 
     public void addSubFlow(String name, SubFlow subFlow) {
@@ -100,10 +104,6 @@ public class Root extends BaseObject implements Visitable {
         asyncTaskList.add(task);
     }
 
-    public Map<String, GlobalConfiguration> getConfigMap() {
-        return configMap;
-    }
-
     public Map<String, Queue<Flow>> getServiceMap() {
         return serviceMap;
     }
@@ -120,12 +120,20 @@ public class Root extends BaseObject implements Visitable {
         return privateFlowMap;
     }
 
-    public Stack<Flow> getPrivateFlowList() {
-        return privateFlowList;
+    public Stack<Flow> getPrivateFlowStack() {
+        return privateFlowStack;
     }
 
     public List<AsynchronousTask> getAsyncTaskList() {
         return asyncTaskList;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Stack<GlobalConfiguration> getGlobalConfigStack() {
+        return globalConfigStack;
     }
 
     @Override

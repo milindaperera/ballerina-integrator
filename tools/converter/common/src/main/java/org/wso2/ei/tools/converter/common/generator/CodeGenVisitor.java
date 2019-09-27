@@ -18,7 +18,7 @@
 
 package org.wso2.ei.tools.converter.common.generator;
 
-import org.ballerinalang.bre.ConnectorVarLocation;
+/*import org.ballerinalang.bre.ConnectorVarLocation;
 import org.ballerinalang.bre.ConstantLocation;
 import org.ballerinalang.bre.GlobalVarLocation;
 import org.ballerinalang.bre.ServiceVarLocation;
@@ -108,15 +108,15 @@ import org.ballerinalang.model.statements.WorkerReplyStmt;
 import org.ballerinalang.model.values.BInteger;
 import org.ballerinalang.model.values.BString;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory;*/
 
 /**
  * @{@link CodeGenVisitor} implements @{@link NodeVisitor} to traverse through Ballerina model of the integration flow
  * and serialize to ballerina source
  */
-public class CodeGenVisitor implements NodeVisitor {
+public class CodeGenVisitor {
 
-    private static Logger logger = LoggerFactory.getLogger(CodeGenVisitor.class);
+    /*private static Logger logger = LoggerFactory.getLogger(CodeGenVisitor.class);
 
     private StringBuilder balSourceBuilder = new StringBuilder();
     private int indentDepth = 0;
@@ -204,18 +204,18 @@ public class CodeGenVisitor implements NodeVisitor {
             appendToBalSource(Constants.NEWLINE_STR);
         }
 
-        /**
+        *//**
          serviceDefinition : 'service' Identifier serviceBody;
-         * */
+         * *//*
         appendToBalSource(getIndentationForCurrentLine() + Constants.SERVICE_STR + Constants.SPACE_STR +
                 service.getName() + Constants.SPACE_STR + Constants.STMTBLOCK_START_STR + Constants.NEWLINE_STR);
         ++indentDepth;
 
-        /**
+        *//**
          * serviceBody: '{' variableDefinitionStatement* resourceDefinition* '}';
          * resourceDefinition: annotationAttachment* 'resource' Identifier '(' parameterList ')' callableUnitBody;
          * annotationAttachment: '@' nameReference '{' annotationAttributeList? '}'
-         */
+         *//*
         for (VariableDefStmt variableDefStmt : service.getVariableDefStmts()) {
             variableDefStmt.accept(this);
         }
@@ -240,11 +240,11 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(Resource resource) {
 
-        /**
+        *//**
          * resourceDefinition : annotationAttachment* 'resource' Identifier '(' parameterList ')' callableUnitBody;
          * parameterList : parameter (',' parameter)*;
          * parameter : annotationAttachment* typeName Identifier;
-         */
+         *//*
 
         //visit annotations
         AnnotationAttachment[] annotationAttachments = resource.getAnnotations();
@@ -269,7 +269,7 @@ public class CodeGenVisitor implements NodeVisitor {
         appendToBalSource(Constants.PARENTHESES_END_STR + Constants.SPACE_STR + Constants.STMTBLOCK_START_STR
                 + Constants.NEWLINE_STR);
         //process resource block
-        /**
+        *//**
          * callableUnitBody : '{' statement* workerDeclaration* '}';
          * statement : variableDefinitionStatement | assignmentStatement | ifElseStatement | iterateStatement |
          *          whileStatement | continueStatement| breakStatement| forkJoinStatement| tryCatchStatement|
@@ -278,7 +278,7 @@ public class CodeGenVisitor implements NodeVisitor {
          *          abortStatement;
          * variableDefinitionStatement : typeName Identifier ('=' (connectorInitExpression | actionInvocation |
          *                                                                                          expression) )? ';';
-         */
+         *//*
         ++indentDepth;
         BlockStmt blockStmt = resource.getCallableUnitBody();
         Statement[] statements = blockStmt.getStatements();
@@ -298,7 +298,7 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(BallerinaFunction function) {
         logger.debug("Visit - BallerinaFunction");
-        /**
+        *//**
          * functionDefinition
          :   'native' 'function'  callableUnitSignature ';'
          |   'function' callableUnitSignature callableUnitBody
@@ -309,7 +309,7 @@ public class CodeGenVisitor implements NodeVisitor {
          * returnParameters
          : '(' (parameterList | returnTypeList) ')'
          ;
-         */
+         *//*
 
         appendToBalSource(Constants.FUNCTION_STR + Constants.SPACE_STR + function.getName() + Constants.SPACE_STR +
                 Constants.PARENTHESES_START_STR);
@@ -370,9 +370,9 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(AnnotationAttachment annotation) {
         logger.debug("Visit - AnnotationAttachment");
-        /**
+        *//**
          *  annotationAttachment : '@' nameReference '{' annotationAttributeList? '}';
-         */
+         *//*
         appendToBalSource(annotation.toString());
     }
 
@@ -398,11 +398,11 @@ public class CodeGenVisitor implements NodeVisitor {
     public void visit(StructDef structDef) {
         logger.debug("Visit - StructDef");
 
-        /**
+        *//**
          * structDefinition :'struct' Identifier structBody;
          * structBody : '{' fieldDefinition* '}';
          * fieldDefinition : typeName Identifier ('=' simpleLiteral)? ';';
-         */
+         *//*
 
         appendToBalSource(getIndentationForCurrentLine() + Constants.STRUCT_STR + Constants.SPACE_STR +
                 structDef.getName() + Constants.SPACE_STR + Constants.STMTBLOCK_START_STR + Constants.NEWLINE_STR);
@@ -428,10 +428,10 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(VariableDefStmt varDefStmt) {
         logger.debug("Visit - VariableDefStmt");
-        /**
+        *//**
          * variableDefinitionStatement : typeName Identifier ('=' (connectorInitExpression | actionInvocation |
          *                                                                                      expression) )? ';';
-         */
+         *//*
 
         VariableDef variableDef = varDefStmt.getVariableDef();
         String varLHSDefStr = variableDef.getTypeName().toString() + Constants.SPACE_STR + variableDef.getSymbolName();
@@ -448,7 +448,7 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(AssignStmt assignStmt) {
         logger.debug("Visit - AssignStmt");
-        /**
+        *//**
          * assignmentStatement
          : variableReferenceList '=' (connectorInitExpression | actionInvocation | expression) ';';
          * variableReferenceList
@@ -458,7 +458,7 @@ public class CodeGenVisitor implements NodeVisitor {
          |   nameReference ('['expression']')+           # mapArrayVariableIdentifier// arrays and map reference
          |   variableReference ('.' variableReference)+  # structFieldIdentifier// struct field reference
          ;
-         */
+         *//*
         //handle lhs
         appendToBalSource(getIndentationForCurrentLine());
         Expression[] lhsExpressions = assignStmt.getLExprs();
@@ -490,12 +490,12 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(IfElseStmt ifElseStmt) {
         logger.debug("Visit - IfElseStmt");
-        /**
+        *//**
          * ifElseStatement : ifClause elseIfClause* elseClause?;
          * ifClause : 'if' '(' expression ')' '{' statement* '}';
          * elseIfClause : 'else' 'if' '(' expression ')' '{' statement* '}';
          * elseClause : 'else' '{' statement*'}';
-         */
+         *//*
         appendToBalSource(getIndentationForCurrentLine() + Constants.IF_STR + Constants.SPACE_STR +
                 Constants.PARENTHESES_START_STR);
         //process if clause expression
@@ -535,9 +535,9 @@ public class CodeGenVisitor implements NodeVisitor {
 
     @Override
     public void visit(ReplyStmt replyStmt) {
-        /**
+        *//**
          * replyStatement : 'reply' expression ';';
-         */
+         *//*
         appendToBalSource(getIndentationForCurrentLine() + Constants.REPLY_STR + Constants.SPACE_STR);
 
         Expression replyExpression = replyStmt.getReplyExpr();
@@ -551,10 +551,10 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(ReturnStmt returnStmt) {
         logger.debug("Visit - ReturnStmt");
-        /**
+        *//**
          * returnStatement : 'return' expressionList? ';';
          * expressionList:expression (',' expression)*;
-         */
+         *//*
         appendToBalSource(getIndentationForCurrentLine() + Constants.RETURN_STR + Constants.SPACE_STR);
         Expression[] expressions = returnStmt.getExprs();
         for (int i = 0; i < expressions.length; i++) {
@@ -579,12 +579,12 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(TryCatchStmt tryCatchStmt) {
         logger.debug("Visit - TryCatchStmt");
-        /**
+        *//**
          * tryCatchStatement:   'try' '{' statement* '}' catchClauses;
          * catchClauses: catchClause+ finallyClause?| finallyClause;
          * catchClause:  'catch' '(' typeName Identifier ')' '{' statement* '}';
          * finallyClause: 'finally' '{' statement* '}';
-         */
+         *//*
         //process try block
         appendToBalSource(getIndentationForCurrentLine() + Constants.TRY_STR + Constants.SPACE_STR +
                 Constants.STMTBLOCK_START_STR + Constants.NEWLINE_STR);
@@ -624,9 +624,9 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(FunctionInvocationStmt functionInvocationStmt) {
         logger.debug("Visit - FunctionInvocationStmt");
-        /**
+        *//**
          * functionInvocationStatement : nameReference '(' expressionList? ')' ';';
-         */
+         *//*
         appendToBalSource(getIndentationForCurrentLine());
         functionInvocationStmt.getFunctionInvocationExpr().accept(this);
         appendToBalSource(Constants.STMTEND_STR + Constants.NEWLINE_STR);
@@ -635,12 +635,12 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(ActionInvocationStmt actionInvocationStmt) {
         logger.debug("Visit - ActionInvocationStmt");
-        /**
+        *//**
          * actionInvocationStatement
          :   actionInvocation ';'
          |   variableReferenceList '=' actionInvocation ';'
          ;
-         */
+         *//*
         appendToBalSource(getIndentationForCurrentLine());
         actionInvocationStmt.getActionInvocationExpr().accept(this);
         appendToBalSource(Constants.STMTEND_STR + Constants.NEWLINE_STR);
@@ -689,12 +689,12 @@ public class CodeGenVisitor implements NodeVisitor {
     public void visit(TransactionStmt transactionStmt) {
         logger.debug("Visit - TransactionStmt");
 
-        /**
+        *//**
          * transactionStatement : 'transaction' '{' statement* '}' transactionHandlers;
          * transactionHandlers : abortedClause? committedClause? | committedClause? abortedClause? ;
          * abortedClause : 'aborted' '{' statement* '}';
          * committedClause : 'committed' '{' statement* '}';
-         */
+         *//*
         appendToBalSource(getIndentationForCurrentLine() + Constants.TRANSACTION_STR + Constants.SPACE_STR +
                 Constants.STMTBLOCK_START_STR + Constants.NEWLINE_STR);
         ++indentDepth;
@@ -735,12 +735,12 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(AddExpression addExpr) {
         logger.debug("Visit - AddExpression");
-        /**
+        *//**
          * expression
          : ......
          | expression ('+' | '-') expression  # binaryAddSubExpression
          | ....
-         */
+         *//*
         addExpr.getLExpr().accept(this);
         appendToBalSource(Constants.SPACE_STR + addExpr.getOperator().toString() + Constants.SPACE_STR);
         addExpr.getRExpr().accept(this);
@@ -778,12 +778,12 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(FunctionInvocationExpr functionInvocationExpr) {
         logger.debug("Visit - FunctionInvocationExpr");
-        /**
+        *//**
          * expression : simpleLiteral                        # simpleLiteralExpression
          |   arrayLiteral                                    # arrayLiteralExpression
          |   ..................
          |   nameReference '(' expressionList? ')'           # functionInvocationExpression
-         */
+         *//*
         appendToBalSource((functionInvocationExpr.getPackageName() == null ?
                 "" :
                 functionInvocationExpr.getPackageName() + Constants.COLON_STR) +
@@ -803,10 +803,10 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(ActionInvocationExpr actionInvocationExpr) {
         logger.debug("Visit - ActionInvocationExpr");
-        /**
+        *//**
          * actionInvocation : nameReference '.' Identifier '(' expressionList? ')';
          * nameReference : (Identifier ':')? Identifier;
-         */
+         *//*
         appendToBalSource(actionInvocationExpr.getPackageName() + Constants.COLON_STR +
                 actionInvocationExpr.getConnectorName() + Constants.PERIOD_STR + actionInvocationExpr.getName() +
                 Constants.PARENTHESES_START_STR);
@@ -864,12 +864,12 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(SubtractExpression subtractExpression) {
         logger.debug("Visit - AddExpression");
-        /**
+        *//**
          * expression
          : ......
          | expression ('+' | '-') expression  # binaryAddSubExpression
          | ....
-         */
+         *//*
         subtractExpression.getLExpr().accept(this);
         appendToBalSource(Constants.SPACE_STR + subtractExpression.getOperator().toString() + Constants.SPACE_STR);
         subtractExpression.getRExpr().accept(this);
@@ -878,12 +878,12 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(UnaryExpression unaryExpression) {
         logger.debug("Visit - UnaryExpression");
-        /**
+        *//**
          * expression
          : ......
          | ('+' | '-' | '!') expression    # unaryExpression
          | ....
-         */
+         *//*
         appendToBalSource(unaryExpression.getOperator().toString());
         unaryExpression.getRExpr().accept(this);
 
@@ -892,12 +892,12 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(TypeCastExpression typeCastExpression) {
         logger.debug("Visit - TypeCastExpression");
-        /**
+        *//**
          * expression
          : ......
          | '(' typeName ')' expression   # typeCastingExpression
          | ....
-         */
+         *//*
         if (typeCastExpression.getTypeName() != null) {
             appendToBalSource(Constants.PARENTHESES_START_STR + typeCastExpression.getTypeName() +
                     Constants.PARENTHESES_END_STR + Constants.SPACE_STR);
@@ -914,13 +914,13 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(ArrayMapAccessExpr arrayMapAccessExpr) {
         logger.debug("Visit - ArrayMapAccessExpr");
-        /**
+        *//**
          * variableReference
          :   nameReference                               # simpleVariableIdentifier// simple identifier
          |   nameReference ('['expression']')+           # mapArrayVariableIdentifier// arrays and map reference
          |   variableReference ('.' variableReference)+  # structFieldIdentifier// struct field reference
          ;
-         */
+         *//*
         appendToBalSource(arrayMapAccessExpr.getVarName() + Constants.ARRAY_START_STR);
         arrayMapAccessExpr.getIndexExprs()[0].accept(this);
         appendToBalSource(Constants.ARRAY_END_STR);
@@ -934,13 +934,13 @@ public class CodeGenVisitor implements NodeVisitor {
     @Override
     public void visit(FieldAccessExpr structAttributeAccessExpr) {
         logger.debug("Visit - FieldAccessExpr");
-        /**
+        *//**
          * variableReference
          :   nameReference                               # simpleVariableIdentifier// simple identifier
          |   nameReference ('['expression']')+           # mapArrayVariableIdentifier// arrays and map reference
          |   variableReference ('.' variableReference)+  # structFieldIdentifier// struct field reference
          ;
-         */
+         *//*
         structAttributeAccessExpr.getVarRef().accept(this);
         if (structAttributeAccessExpr.getFieldExpr() != null) {
             appendToBalSource(Constants.PERIOD_STR);
@@ -968,18 +968,18 @@ public class CodeGenVisitor implements NodeVisitor {
 
     }
 
-    /*@Override
+    *//*@Override
     public void visit(BacktickExpr backtickExpr) {
         logger.debug("Visit - BacktickExpr");
         appendToBalSource("`" + backtickExpr.getTemplateStr() + "`");
-    }*/
+    }*//*
 
     @Override
     public void visit(ArrayInitExpr arrayInitExpr) {
         logger.debug("Visit - ArrayInitExpr");
-        /**
+        *//**
          * arrayLiteral : '[' expressionList? ']';
-         */
+         *//*
         appendToBalSource(Constants.ARRAY_START_STR);
         Expression[] expressArgs = arrayInitExpr.getArgExprs();
         for (int i = 0; i < expressArgs.length; i++) {
@@ -1011,10 +1011,10 @@ public class CodeGenVisitor implements NodeVisitor {
 
     @Override
     public void visit(ConnectorInitExpr connectorInitExpr) {
-        /**
+        *//**
          * connectorInitExpression : 'create' nameReference '(' expressionList? ')';
          * expressionList : expression (',' expression)*;
-         */
+         *//*
         appendToBalSource(Constants.CREATE_STR).append(Constants.SPACE_STR).
                 append(connectorInitExpr.getTypeName().toString()).append(Constants.PARENTHESES_START_STR);
 
@@ -1023,10 +1023,10 @@ public class CodeGenVisitor implements NodeVisitor {
             if (i > 0) {
                 appendToBalSource(Constants.COMMA_STR + Constants.SPACE_STR);
             }
-            /*if (expressArgs[i] instanceof BasicLiteral) {
+            *//*if (expressArgs[i] instanceof BasicLiteral) {
                 BValue arg = ((BasicLiteral) expressArgs[i]).getBValue();
                 appendToBalSource(arg.stringValue());
-            }*/
+            }*//*
             expressArgs[i].accept(this);
         }
         appendToBalSource(Constants.PARENTHESES_END_STR);
@@ -1051,11 +1051,11 @@ public class CodeGenVisitor implements NodeVisitor {
     public void visit(MapInitExpr mapInitExpr) {
         logger.debug("Visit - MapInitExpr");
 
-        /**
+        *//**
          * mapStructLiteral : '{' (mapStructKeyValue (',' mapStructKeyValue)*)? '}';
          * mapStructKeyValue : expression ':' expression
          ;
-         */
+         *//*
         appendToBalSource(Constants.STMTBLOCK_START_STR);
         Expression[] expressions = mapInitExpr.getArgExprs();
         for (int i = 0; i < expressions.length; i++) {
@@ -1158,9 +1158,9 @@ public class CodeGenVisitor implements NodeVisitor {
         return balSourceBuilder.append(str);
     }
 
-    /*private void appendToBalSourceWithNewLine(String str) {
+    *//*private void appendToBalSourceWithNewLine(String str) {
         ballerinaSourceStr += Constants.NEWLINE_STR + str;
-    }*/
+    }*//*
 
     private String getIndentationForCurrentLine() {
 
@@ -1173,5 +1173,5 @@ public class CodeGenVisitor implements NodeVisitor {
             indentStr = indentation;
         }
         return indentStr;
-    }
+    }*/
 }

@@ -39,12 +39,17 @@ public class Constants {
     public static final String RETURN_STR = "return";
     public static final String STRUCT_STR = "struct";
     public static final String WORKER_STR = "worker";
+    public static final String NEW_STR = "new";
+    public static final String VAR_STR = "var";
+    public static final String ON_STR = "on";
 
 
     public static final String SPACE_STR = " ";
     public static final String TAB_STR = "    ";
     public static final String STMTBLOCK_START_STR = "{";
+    public static final String LEFT_BRACE = "{";
     public static final String STMTBLOCK_END_STR = "}";
+    public static final String RIGHT_BRACE = "}";
     public static final String ARRAY_START_STR = "[";
     public static final String ARRAY_END_STR = "]";
     public static final String PARENTHESES_START_STR = "(";
@@ -60,5 +65,23 @@ public class Constants {
     public static final String SEND = "->";
     public static final String RECEIVE = "<-";
 
+    public static final char NEWLINE_CHAR = '\n';
+    public static final char PARENTHESES_START_CHAR = '(';
+    public static final char PARENTHESES_END_CHAR = ')';
+    public static final char SPACE_CHAR = ' ';
+    public static final char ANNOTATION_AT_CHAR = '@';
+    public static final char COMMA_CHAR = ',';
+    public static final char LEFT_BRACE_CHAR = '{';
+    public static final char RIGHT_BRACE_CHAR = '}';
+
     public static final String IMPLICIT_PACKAGE = "ballerina.lang.errors";
+
+
+    // TODO Handle dynamic packages
+    public static final String PKG_HTTP = "http";
+    public static final String PKG_HTTP_CALLER = "Caller";
+    public static final String PKG_HTTP_REQUEST = "Request";
+
+    public static final String ORG_BALLERINA = "ballerina";
+
 }

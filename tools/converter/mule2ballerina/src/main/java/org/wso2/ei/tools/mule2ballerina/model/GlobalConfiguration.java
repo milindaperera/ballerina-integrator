@@ -46,17 +46,16 @@ public interface GlobalConfiguration extends Visitable, TreeBuilder {
         BaseObject baseObj = dataCarrierDTO.getBaseObject();
         Root rootObj = dataCarrierDTO.getRootObject();
         GlobalConfiguration globalConfiguration = (GlobalConfiguration) baseObj;
-        rootObj.addGlobalConfiguration((GlobalConfiguration) baseObj);
 
          /* If the element is a global configuration keep it against it's name as this will
           * be useful when navigating the processors to identify their global configuration */
-        rootObj.addGlobalConfigurationMap(globalConfiguration.getName(), (GlobalConfiguration) globalConfiguration);
+        rootObj.addGlobalConfiguration(globalConfiguration);
 
         /*If the global configuration represents an inbound global config, check whether a flow queue is maintained
           for that inbound config.If there's not create an empty flow queue against the global config and put it in the
           service map of root
          */
-        if (baseObj instanceof Inbound && rootObj.getServiceMap() != null) {
+        if (baseObj instanceof Inbound) {
             Inbound inboundObj = (Inbound) baseObj;
             Queue<Flow> flowQueue = rootObj.getServiceMap().get(inboundObj.getName());
             if (flowQueue == null) {

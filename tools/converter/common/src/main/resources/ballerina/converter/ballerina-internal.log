@@ -1,0 +1,33 @@
+[2019-08-16 02:18:28,343] ERROR {org.ballerinalang.net.http.HttpConnectorPortBindingListener} - Error in http endpoint 
+java.net.BindException: Address already in use
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Net.java:433)
+	at sun.nio.ch.Net.bind(Net.java:425)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:223)
+	at io.netty.channel.socket.nio.NioServerSocketChannel.doBind(NioServerSocketChannel.java:130)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.bind(AbstractChannel.java:563)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.bind(DefaultChannelPipeline.java:1332)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeBind(AbstractChannelHandlerContext.java:488)
+	at io.netty.channel.AbstractChannelHandlerContext.bind(AbstractChannelHandlerContext.java:473)
+	at io.netty.channel.DefaultChannelPipeline.bind(DefaultChannelPipeline.java:984)
+	at io.netty.channel.AbstractChannel.bind(AbstractChannel.java:259)
+	at io.netty.bootstrap.AbstractBootstrap$2.run(AbstractBootstrap.java:366)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:495)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:905)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+ 
+[2019-08-16 02:18:28,345] ERROR {org.ballerinalang.jvm.scheduling.Scheduler} - Strand died 
+error: {ballerina/http}ListenerStartupError message=failed to start server connector '0.0.0.0:9090': Address already in use cause=null
+	at ballerina.http.Listener:start(service_endpoint.bal:87)
+	   ballerina.http.Listener:__start(service_endpoint.bal:36) 
+[2019-08-16 12:23:47,041] ERROR {org.ballerinalang.jvm.scheduling.Scheduler} - Strand died 
+error: {ballerina}TypeCastError message=incompatible types: 'map<json>' cannot be cast to 'string'
+	at milindaperera.MessageContext.helloService__service_0:sayHello(main.bal:25) 
+[2019-08-16 12:23:47,048] ERROR {org.ballerinalang.net.http.HttpUtil} - {ballerina}TypeCastError:incompatible types: 'map<json>' cannot be cast to 'string'  
+[2019-08-16 12:23:52,877] ERROR {org.ballerinalang.jvm.scheduling.Scheduler} - Strand died 
+error: {ballerina}TypeCastError message=incompatible types: 'map<json>' cannot be cast to 'string'
+	at milindaperera.MessageContext.helloService__service_0:sayHello(main.bal:25) 
+[2019-08-16 12:23:52,878] ERROR {org.ballerinalang.net.http.HttpUtil} - {ballerina}TypeCastError:incompatible types: 'map<json>' cannot be cast to 'string'  

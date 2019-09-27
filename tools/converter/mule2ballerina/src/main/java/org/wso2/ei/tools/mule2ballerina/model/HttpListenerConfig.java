@@ -22,15 +22,16 @@ import org.wso2.ei.tools.mule2ballerina.visitor.Visitor;
 
 /**
  * {@code HttpListenerConfig} represents mule http:listener-config element
+ *
+ *  <http:listener-config name="NAME" basePath="/helloworld">
+ * 		<http:listener-connection host="0.0.0.0" port="9091" connectionIdleTimeout="60000"/>
+ * 	</http:listener-config>
  */
 public class HttpListenerConfig extends BaseObject implements Inbound, GlobalConfiguration {
 
     private String name;
-    private String host;
-
-    private String port;
-
     private String basePath;
+    private HttpListenerConnection listenerConnection;
 
     @Override
     public void accept(Visitor visitor) {
@@ -45,27 +46,21 @@ public class HttpListenerConfig extends BaseObject implements Inbound, GlobalCon
         this.name = name;
     }
 
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public String getPort() {
-        return port;
-    }
-
-    public void setPort(String port) {
-        this.port = port;
-    }
-
     public String getBasePath() {
         return basePath;
     }
 
     public void setBasePath(String basePath) {
         this.basePath = basePath;
+    }
+
+    public HttpListenerConnection getListenerConnection() {
+
+        return listenerConnection;
+    }
+
+    public void setListenerConnection(HttpListenerConnection listenerConnection) {
+
+        this.listenerConnection = listenerConnection;
     }
 }

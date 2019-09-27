@@ -48,14 +48,15 @@ public interface Processor extends Visitable, TreeBuilder {
 
         /*If flow started, but not inside an async scope*/
         if (dataCarrierDTO.isFlowStarted() && !dataCarrierDTO.isAsyncFlowStarted()) {
-            Flow lastAddedFlow = rootObj.getFlowList().peek(); //Get the last added flow in flow stack
+            Flow lastAddedFlow = rootObj.getFlowStack().peek(); //Get the last added flow in flow stack
             lastAddedFlow.addProcessor((Processor) baseObj); //Add processor to processor queue
             if (lastAddedFlow.getFlowProcessors().size() < 2) { //If this is the first processor
                 /*If this is an inbound connector, get the flow queue associated with it's global inbound config and
                 if it's null, create a new flow queue and add the this flow to it.
                 */
-                if (baseObj instanceof Inbound && rootObj.getServiceMap() != null) {
-                    Inbound inboundObj = (Inbound) baseObj;
+                if (baseObj instanceof Listener) {
+                    Listener inboundObj = (Listener) baseObj;
+                    lastAddedFlow.setListener(inboundObj); // Set the listener to the flow
                     Queue<Flow> flowQueue = rootObj.getServiceMap().get(inboundObj.getName());
                     if (flowQueue == null) {
                         flowQueue = new LinkedList<Flow>();
@@ -67,7 +68,7 @@ public interface Processor extends Visitable, TreeBuilder {
                 } else {
                     /*If this is not an inbound connector and if this is the first processor, that means this needs to
                      be added to a private flow and remove it from the main flow stack */
-                    rootObj.getFlowList().pop();
+                    rootObj.getFlowStack().pop();
                     rootObj.addPrivateFlow(lastAddedFlow.getName(), lastAddedFlow);
                     rootObj.addToPrivateFlowStack(lastAddedFlow);
                 }
@@ -77,7 +78,7 @@ public interface Processor extends Visitable, TreeBuilder {
             lastAddedSubFlow.addProcessor((Processor) baseObj); //Adds the processor to sub flow
         } else if (dataCarrierDTO.isFlowStarted() && dataCarrierDTO.isAsyncFlowStarted()) {
             //Flow started and inside async flow
-            Flow lastAddedFlow = rootObj.getFlowList().peek(); //Get the last added flow in flow stack
+            Flow lastAddedFlow = rootObj.getFlowStack().peek(); //Get the last added flow in flow stack
             //Get all the processors of last added flow
             LinkedList<Processor> processors = (lastAddedFlow != null ? lastAddedFlow.getFlowProcessors() : null);
             //Get the last added processor

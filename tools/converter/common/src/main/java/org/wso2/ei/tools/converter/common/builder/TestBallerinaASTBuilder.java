@@ -18,6 +18,7 @@
 
 package org.wso2.ei.tools.converter.common.builder;
 
+/*
 import org.ballerinalang.model.BLangPackage;
 import org.ballerinalang.model.BLangProgram;
 import org.ballerinalang.model.BallerinaFile;
@@ -27,6 +28,7 @@ import org.ballerinalang.model.builder.BLangModelBuilder;
 import org.ballerinalang.model.types.SimpleTypeName;
 import org.ballerinalang.util.program.BLangPrograms;
 import org.ballerinalang.util.repository.PackageRepository;
+*/
 
 import java.nio.file.Path;
 import java.util.Stack;
@@ -38,10 +40,10 @@ import java.util.Stack;
 public class TestBallerinaASTBuilder {
 
     public static void main(String... args) {
-        buildBallerinaAST();
+        //buildBallerinaAST();
     }
 
-    public static BallerinaFile buildBallerinaAST() {
+    /*public static BallerinaFile buildBallerinaAST() {
 
         Stack<BLangModelBuilder.NameReference> nameReferenceStack = new Stack<>();
         Stack<SimpleTypeName> typeNameStack = new Stack<>();
@@ -221,5 +223,5 @@ public class TestBallerinaASTBuilder {
         System.out.print("Done building AST!");
 
         return bFile;
-    }
+    }*/
 }
